@@ -1,0 +1,72 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# The home page
+GET     /                                   controllers.Projects.index()
+
+# Authentication
+GET     /login                              controllers.Application.login()
+POST    /login                              controllers.Application.authenticate()
+GET     /logout                             controllers.Application.logout()
+
+# Projects
+POST    /projects                           controllers.Projects.add()
+
+POST    /projects/groups                    controllers.Projects.addGroup()
+DELETE  /projects/groups                    controllers.Projects.deleteGroup(group: String)
+PUT     /projects/groups                    controllers.Projects.renameGroup(group: String)
+
+DELETE  /projects/:project                  controllers.Projects.delete(project: Long)
+PUT     /projects/:project                  controllers.Projects.rename(project: Long)
+
+POST    /projects/:project/team             controllers.Projects.addUser(project: Long)
+DELETE  /projects/:project/team             controllers.Projects.removeUser(project: Long)
+
+# Tasks
+GET     /projects/:project/tasks            controllers.Tasks.index(project: Long)
+POST    /projects/:project/tasks            controllers.Tasks.add(project: Long, folder: String)
+PUT     /tasks/:task                        controllers.Tasks.update(task: Long)
+DELETE  /tasks/:task                        controllers.Tasks.delete(task: Long)
+
+POST    /tasks/folder                       controllers.Tasks.addFolder()
+DELETE  /projects/:project/tasks/folder     controllers.Tasks.deleteFolder(project: Long, folder: String)
+PUT     /project/:project/tasks/folder      controllers.Tasks.renameFolder(project: Long, folder: String)
+
+# Javascript routing
+GET     /assets/javascripts/routes          controllers.Application.javascriptRoutes()
+
+# Map static resources from the /public folder to the /public path
+GET     /assets/*file                       controllers.Assets.at(path="/public", file)
+
+# Swagger - Root Resources Listing
+GET     /api/resources.json			        controllers.ApiHelpController.getResources
+
+# Swagger - Project
+GET     /api/project.json				    controllers.ApiHelpController.getResource(path = "/api/project")
+
+POST    /api/projects/groups                controllers.api.ProjectsApi.addGroup()
+DELETE  /api/projects/groups	            controllers.api.ProjectsApi.deleteGroup(group: String)
+PUT     /api/projects/groups	            controllers.api.ProjectsApi.renameGroup(group: String, newName: String)
+
+POST    /api/projects/:id/team           	controllers.api.ProjectsApi.addUser(id: Long, user: String)
+DELETE  /api/projects/:id/team            	controllers.api.ProjectsApi.removeUser(id: Long, user:String)
+
+GET 	/api/projects						controllers.api.ProjectsApi.index()
+POST	/api/projects						controllers.api.ProjectsApi.add()
+PUT		/api/projects/:id					controllers.api.ProjectsApi.rename(id: Long)
+DELETE  /api/projects/:id					controllers.api.ProjectsApi.delete(id: Long)
+
+# Swagger - Tasks
+GET     /api/tasks.json				    controllers.ApiHelpController.getResource(path = "/api/tasks")
+
+GET     /api/projects/:id/tasks		        controllers.api.ProjectsApi.indexTasks(id: Long)
+POST    /api/projects/:id/tasks     		controllers.api.ProjectsApi.addTask(id: Long, folder: String)
+PUT     /api/tasks/:id            			controllers.api.TasksApi.update(id: Long)
+DELETE  /api/tasks/:id						controllers.api.TasksApi.delete(id: Long)
+
+POST    /api/tasks/folder                   controllers.api.TasksApi.addFolder()
+DELETE  /api/projects/:id/tasks/folder 		controllers.api.ProjectsApi.deleteFolder(id: Long, folder: String)
+PUT     /api/projects/:id/tasks/folder  	controllers.api.ProjectsApi.renameFolder(id: Long, folder: String, name:String)
+
+
